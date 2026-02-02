@@ -1,0 +1,33 @@
+module tb_digital_clock;
+
+reg clk_1sec;
+reg reset;
+wire [5:0] seconds;
+wire [5:0] minutes;
+wire [4:0] hours;
+
+digital_clock DUT (
+    .clk_1sec(clk_1sec),
+    .reset(reset),
+    .seconds(seconds),
+    .minutes(minutes),
+    .hours(hours)
+);
+
+// Generate 1-sec clock (fast for simulation)
+initial begin
+    clk_1sec = 0;
+    forever #5 clk_1sec = ~clk_1sec;
+end
+
+initial begin
+    reset = 1;
+    #12;
+    reset = 0;
+
+    // Run simulation
+    #1000;
+    $finish;
+end
+
+endmodule
